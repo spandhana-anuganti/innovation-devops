@@ -1,0 +1,1787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProFinder - Connect with Skilled Professionals</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        :root {
+            --primary: #6C63FF;
+            --primary-dark: #5A52D3;
+            --secondary: #FF6584;
+            --accent: #36D1DC;
+            --success: #4CD964;
+            --warning: #FFCC00;
+            --danger: #FF3B30;
+            --light: #F8F9FF;
+            --dark: #1A1A2E;
+            --gray: #8A8EA8;
+            --card-shadow: 0 20px 40px rgba(108, 99, 255, 0.15);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--dark);
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Gradient Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-50px, -50px) rotate(360deg); }
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo i {
+            background: white;
+            color: var(--primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 15px;
+            font-weight: 300;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Animated Background Particles */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: particle-float 3s infinite ease-in-out;
+        }
+
+        @keyframes particle-float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Page Transitions */
+        .page {
+            padding: 30px;
+            display: none;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .active {
+            display: block;
+        }
+
+        /* Headers */
+        h2 {
+            color: var(--dark);
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 18px 20px;
+            border: 2px solid #E6E9FF;
+            border-radius: 15px;
+            font-size: 16px;
+            transition: var(--transition);
+            background: white;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Enhanced Buttons */
+        .btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(108, 99, 255, 0.3);
+        }
+
+        .btn:hover::before {
+            left: 0;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--gray) 0%, #A0A0C0 100%);
+            margin-top: 15px;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success) 0%, #36D1DC 100%);
+        }
+
+        .btn-accent {
+            background: linear-gradient(135deg, #FF9A8B 0%, #FF6A88 100%);
+        }
+
+        /* Enhanced Worker Cards */
+        .worker-card {
+            background: linear-gradient(135deg, white 0%, #F8F9FF 100%);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(108, 99, 255, 0.1);
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .worker-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+            border-radius: 6px 0 0 6px;
+        }
+
+        .worker-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(108, 99, 255, 0.2);
+        }
+
+        .worker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .worker-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .worker-name i {
+            color: var(--primary);
+            background: rgba(108, 99, 255, 0.1);
+            padding: 8px;
+            border-radius: 50%;
+        }
+
+        .worker-type {
+            background: linear-gradient(135deg, var(--secondary), #FF9A8B);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .worker-skill {
+            color: var(--primary-dark);
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 16px;
+            padding: 8px 0;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .skill-tag {
+            background: linear-gradient(135deg, rgba(108, 99, 255, 0.1), rgba(54, 209, 220, 0.1));
+            color: var(--primary);
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid rgba(108, 99, 255, 0.2);
+            transition: var(--transition);
+        }
+
+        .skill-tag:hover {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .worker-details {
+            color: var(--gray);
+            font-size: 14px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .worker-details i {
+            color: var(--primary);
+            width: 20px;
+        }
+
+        .worker-rating {
+            color: var(--warning);
+            font-weight: 700;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 0;
+        }
+
+        /* Search and Filter */
+        .search-container {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .search-container i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .search-container input {
+            padding-left: 55px;
+            background: rgba(108, 99, 255, 0.05);
+            border: 2px solid rgba(108, 99, 255, 0.1);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, white, #F8F9FF);
+            border: 2px solid rgba(108, 99, 255, 0.1);
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            min-width: 100px;
+            transition: var(--transition);
+            color: var(--gray);
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 8px 20px rgba(108, 99, 255, 0.3);
+        }
+
+        /* Enhanced Intro Page */
+        .intro-hero {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hero-icon {
+            font-size: 100px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .intro-title {
+            font-size: 36px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .intro-subtitle {
+            font-size: 18px;
+            color: var(--gray);
+            margin-bottom: 40px;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 25px 15px;
+            background: linear-gradient(135deg, white, #F8F9FF);
+            border-radius: 20px;
+            transition: var(--transition);
+            border: 1px solid rgba(108, 99, 255, 0.1);
+        }
+
+        .feature-item:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(108, 99, 255, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 45px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .feature-desc {
+            font-size: 13px;
+            color: var(--gray);
+            line-height: 1.5;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 40px 0;
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(108, 99, 255, 0.9), rgba(54, 209, 220, 0.9));
+            border-radius: 20px;
+            color: white;
+            box-shadow: 0 15px 30px rgba(108, 99, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+
+        .stat-item {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .testimonial {
+            background: linear-gradient(135deg, white, #F8F9FF);
+            padding: 25px;
+            border-radius: 20px;
+            margin: 30px 0;
+            text-align: center;
+            border-left: 5px solid var(--secondary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .testimonial::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            font-size: 80px;
+            color: rgba(108, 99, 255, 0.1);
+            font-family: serif;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: var(--gray);
+            margin-bottom: 20px;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        .testimonial-author {
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 14px;
+        }
+
+        .testimonial-author::before {
+            content: '';
+            display: inline-block;
+            width: 30px;
+            height: 2px;
+            background: var(--primary);
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        .get-started-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            margin-top: 30px;
+            box-shadow: 0 15px 35px rgba(108, 99, 255, 0.4);
+            letter-spacing: 1.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .get-started-btn:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(108, 99, 255, 0.5);
+        }
+
+        /* Enhanced Modals */
+        .booking-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(26, 26, 46, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .booking-modal.active {
+            display: flex;
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, white, #F8F9FF);
+            padding: 35px;
+            border-radius: 25px;
+            max-width: 400px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(108, 99, 255, 0.2);
+            position: relative;
+        }
+
+        .modal-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 25px 25px 0 0;
+        }
+
+        /* Page Indicator */
+        .page-indicator {
+            text-align: center;
+            color: var(--gray);
+            margin-bottom: 25px;
+            font-size: 15px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .page-indicator::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        }
+
+        /* Rating Stars */
+        .rating-stars {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            justify-content: center;
+        }
+
+        .rating-star {
+            font-size: 32px;
+            color: #E0E0FF;
+            cursor: pointer;
+            transition: var(--transition);
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .rating-star:hover,
+        .rating-star.active {
+            color: var(--warning);
+            transform: scale(1.2);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .page-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, white, #F8F9FF);
+            border: 2px solid rgba(108, 99, 255, 0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .page-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .page-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border-color: transparent;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Professional Count Badge */
+        .professional-count {
+            background: linear-gradient(135deg, var(--secondary), #FF9A8B);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .container {
+                border-radius: 25px;
+            }
+            
+            .page {
+                padding: 25px 20px;
+            }
+            
+            .filter-buttons {
+                gap: 8px;
+            }
+            
+            .filter-btn {
+                min-width: 80px;
+                font-size: 12px;
+                padding: 12px;
+            }
+            
+            .modal-content {
+                padding: 25px;
+            }
+
+            .intro-title {
+                font-size: 30px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-icon {
+                font-size: 80px;
+            }
+            
+            h2 {
+                font-size: 24px;
+            }
+            
+            .get-started-btn {
+                padding: 18px;
+                font-size: 16px;
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(108, 99, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 10px;
+        }
+
+        /* Floating Action Button for Bookings */
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 10px 30px rgba(108, 99, 255, 0.4);
+            cursor: pointer;
+            z-index: 100;
+            transition: var(--transition);
+        }
+
+        .fab:hover {
+            transform: scale(1.1) rotate(180deg);
+            box-shadow: 0 15px 40px rgba(108, 99, 255, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Action Button -->
+    <div class="fab" onclick="showBookings()">
+        <i class="fas fa-history"></i>
+    </div>
+
+    <div class="container">
+        <!-- Animated Header with Particles -->
+        <div class="header">
+            <div class="particles" id="particles"></div>
+            <div class="logo">
+                <i class="fas fa-hands-helping"></i>
+                ProFinder
+            </div>
+            <p>Connect with 150+ Top Professionals Across India</p>
+        </div>
+
+        <!-- Intro Page -->
+        <div class="page active" id="introPage">
+            <div class="intro-hero">
+                <div class="hero-icon">
+                    <i class="fas fa-hands-helping"></i>
+                </div>
+                <h1 class="intro-title">Connect with Skilled Professionals</h1>
+                <p class="intro-subtitle">Find the perfect expert from our network of 150+ verified professionals across 15+ categories</p>
+                
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="feature-title">Smart Search</div>
+                        <div class="feature-desc">Find professionals based on skills, ratings, and availability</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="feature-title">Quick Booking</div>
+                        <div class="feature-desc">Instant appointments with real-time availability</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="feature-title">Verified Reviews</div>
+                        <div class="feature-desc">Read authentic feedback from real clients</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="feature-title">Secure Payments</div>
+                        <div class="feature-desc">Safe transactions with money-back guarantee</div>
+                    </div>
+                </div>
+
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <div class="stat-number">150+</div>
+                        <div class="stat-label">Professionals</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">5K+</div>
+                        <div class="stat-label">Happy Clients</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">4.8★</div>
+                        <div class="stat-label">Avg Rating</div>
+                    </div>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-text">
+                        "ProFinder has completely transformed how I find reliable professionals. From home repairs to digital marketing, I've found the best experts through this platform!"
+                    </div>
+                    <div class="testimonial-author">- Arjun Mehta, Business Owner</div>
+                </div>
+
+                <button class="get-started-btn" onclick="goToPage('welcomePage')">
+                    Get Started Now <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Welcome Page -->
+        <div class="page" id="welcomePage">
+            <h2>Welcome to ProFinder</h2>
+            <p class="page-indicator">Join our community of professionals and clients</p>
+            
+            <button class="btn" onclick="goToPage('loginPage')">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+            <button class="btn btn-secondary" onclick="goToPage('signupPage')">
+                <i class="fas fa-user-plus"></i> Sign Up
+            </button>
+            <button class="btn btn-accent" onclick="goToPage('introPage')">
+                <i class="fas fa-home"></i> Back to Home
+            </button>
+        </div>
+
+        <!-- Login Page -->
+        <div class="page" id="loginPage">
+            <h2>Welcome Back!</h2>
+            <p class="page-indicator">Sign in to your account to continue</p>
+
+            <div class="form-group">
+                <label for="loginEmail"><i class="fas fa-envelope"></i> Email Address</label>
+                <input type="email" id="loginEmail" placeholder="you@example.com">
+            </div>
+
+            <div class="form-group">
+                <label for="loginPassword"><i class="fas fa-lock"></i> Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password">
+            </div>
+
+            <button class="btn" onclick="login()">
+                <i class="fas fa-sign-in-alt"></i> Sign In
+            </button>
+            
+            <div style="text-align: center; margin-top: 20px; color: var(--gray);">
+                Don't have an account? <a onclick="goToPage('signupPage')" style="color: var(--primary); font-weight: 600; cursor: pointer; text-decoration: none;">Sign up here</a>
+            </div>
+            <button class="btn btn-secondary" onclick="goToPage('welcomePage')">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+        </div>
+
+        <!-- Sign Up Page -->
+        <div class="page" id="signupPage">
+            <h2>Create Account</h2>
+            <p class="page-indicator">Join thousands of professionals and clients</p>
+
+            <div class="form-group">
+                <label for="signupName"><i class="fas fa-user"></i> Full Name</label>
+                <input type="text" id="signupName" placeholder="John Doe">
+            </div>
+
+            <div class="form-group">
+                <label for="signupEmail"><i class="fas fa-envelope"></i> Email Address</label>
+                <input type="email" id="signupEmail" placeholder="john@example.com">
+            </div>
+
+            <div class="form-group">
+                <label for="signupPassword"><i class="fas fa-lock"></i> Password</label>
+                <input type="password" id="signupPassword" placeholder="Create a strong password">
+            </div>
+
+            <div class="form-group">
+                <label for="signupPhone"><i class="fas fa-phone"></i> Phone Number</label>
+                <input type="text" id="signupPhone" placeholder="+91 98765 43210">
+            </div>
+
+            <div class="form-group">
+                <label for="userType"><i class="fas fa-briefcase"></i> I want to</label>
+                <select id="userType">
+                    <option value="">Select your role</option>
+                    <option value="client">Find Service Providers</option>
+                    <option value="worker">Work as a Professional</option>
+                </select>
+            </div>
+
+            <button class="btn" onclick="signup()">
+                <i class="fas fa-user-plus"></i> Create Account
+            </button>
+            
+            <div style="text-align: center; margin-top: 20px; color: var(--gray);">
+                Already have an account? <a onclick="goToPage('loginPage')" style="color: var(--primary); font-weight: 600; cursor: pointer; text-decoration: none;">Login here</a>
+            </div>
+            <button class="btn btn-secondary" onclick="goToPage('welcomePage')">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+        </div>
+
+        <!-- Worker Registration Page -->
+        <div class="page" id="registerPage">
+            <h2>Professional Profile</h2>
+            <p class="page-indicator">Complete your professional profile</p>
+
+            <div class="form-group">
+                <label for="w_name"><i class="fas fa-id-card"></i> Full Name</label>
+                <input type="text" id="w_name" placeholder="Enter your full name">
+            </div>
+
+            <div class="form-group">
+                <label for="w_type"><i class="fas fa-tools"></i> Service Type</label>
+                <select id="w_type">
+                    <option value="">Select your service type</option>
+                    <option value="electrician">⚡ Electrician</option>
+                    <option value="plumber">🔧 Plumber</option>
+                    <option value="carpenter">🪚 Carpenter</option>
+                    <option value="painter">🎨 Painter</option>
+                    <option value="mechanic">🔩 Mechanic</option>
+                    <option value="cleaner">🧹 Cleaner</option>
+                    <option value="gardener">🌿 Gardener</option>
+                    <option value="teacher">👨‍🏫 Teacher/Tutor</option>
+                    <option value="trainer">💪 Fitness Trainer</option>
+                    <option value="artist">🎨 Artist</option>
+                    <option value="developer">💻 Software Developer</option>
+                    <option value="designer">🎨 UI/UX Designer</option>
+                    <option value="video_editor">🎬 Video Editor</option>
+                    <option value="photographer">📸 Photographer</option>
+                    <option value="writer">✍️ Content Writer</option>
+                    <option value="marketing">📈 Digital Marketer</option>
+                    <option value="stock_trader">📈 Stock Market Trader</option>
+                    <option value="consultant">💼 Business Consultant</option>
+                    <option value="data_scientist">📊 Data Scientist</option>
+                    <option value="interior">🏠 Interior Designer</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="w_skill"><i class="fas fa-star"></i> Specialization</label>
+                <input type="text" id="w_skill" placeholder="e.g., Residential Wiring, Video Editing">
+            </div>
+
+            <div class="form-group">
+                <label for="w_phone"><i class="fas fa-phone"></i> Phone Number</label>
+                <input type="text" id="w_phone" placeholder="+91 98765 43210">
+            </div>
+
+            <div class="form-group">
+                <label for="w_rate"><i class="fas fa-rupee-sign"></i> Hourly Rate (₹)</label>
+                <input type="text" id="w_rate" placeholder="e.g., ₹500/hour">
+            </div>
+
+            <div class="form-group">
+                <label for="w_experience"><i class="fas fa-briefcase"></i> Experience & Skills</label>
+                <textarea id="w_experience" placeholder="Describe your experience, skills, and achievements..." rows="4"></textarea>
+            </div>
+
+            <button class="btn btn-success" onclick="saveWorker()">
+                <i class="fas fa-check-circle"></i> Complete Registration
+            </button>
+            <button class="btn btn-secondary" onclick="goToPage('searchPage')">
+                <i class="fas fa-forward"></i> Skip for now
+            </button>
+        </div>
+
+        <!-- Search Workers Page -->
+        <div class="page" id="searchPage">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                <h2 style="margin: 0;">Find Professionals <span class="professional-count" id="professionalCount"></span></h2>
+                <div style="display: flex; gap: 12px;">
+                    <button class="btn btn-accent" onclick="logout()" style="width: auto; padding: 12px 20px; border-radius: 15px;">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+
+            <p class="page-indicator">Discover 150+ skilled professionals across India</p>
+
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search" placeholder="Search by skill, name, or service..." onkeyup="searchWorkers()">
+            </div>
+
+            <div class="filter-buttons">
+                <div class="filter-btn active" onclick="filterWorkers('all')">All</div>
+                <div class="filter-btn" onclick="filterWorkers('electrician')">⚡ Electricians</div>
+                <div class="filter-btn" onclick="filterWorkers('plumber')">🔧 Plumbers</div>
+                <div class="filter-btn" onclick="filterWorkers('carpenter')">🪚 Carpenters</div>
+                <div class="filter-btn" onclick="filterWorkers('developer')">💻 Developers</div>
+                <div class="filter-btn" onclick="filterWorkers('designer')">🎨 Designers</div>
+                <div class="filter-btn" onclick="filterWorkers('teacher')">👨‍🏫 Teachers</div>
+                <div class="filter-btn" onclick="filterWorkers('artist')">🎨 Artists</div>
+                <div class="filter-btn" onclick="filterWorkers('marketing')">📈 Marketing</div>
+                <div class="filter-btn" onclick="filterWorkers('other')">More</div>
+            </div>
+
+            <div id="workerList">
+                <!-- Workers will be displayed here -->
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination">
+                <!-- Pagination buttons will be generated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="booking-modal" id="bookingModal">
+        <div class="modal-content">
+            <h2>Book Service</h2>
+            <div id="bookingWorkerInfo"></div>
+            
+            <div class="form-group">
+                <label for="bookingDate"><i class="fas fa-calendar"></i> Preferred Date</label>
+                <input type="date" id="bookingDate">
+            </div>
+            
+            <div class="form-group">
+                <label for="bookingTime"><i class="fas fa-clock"></i> Preferred Time</label>
+                <input type="time" id="bookingTime">
+            </div>
+            
+            <div class="form-group">
+                <label for="bookingNotes"><i class="fas fa-edit"></i> Additional Notes</label>
+                <textarea id="bookingNotes" placeholder="Any special requirements or details..." rows="4"></textarea>
+            </div>
+            
+            <button class="btn btn-success" onclick="confirmBooking()">
+                <i class="fas fa-calendar-check"></i> Confirm Booking
+            </button>
+            <button class="btn btn-secondary" onclick="closeBookingModal()">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+        </div>
+    </div>
+
+    <!-- Rating Modal -->
+    <div class="booking-modal" id="ratingModal">
+        <div class="modal-content">
+            <h2>Rate Your Experience</h2>
+            <div id="ratingWorkerInfo"></div>
+            
+            <div class="form-group">
+                <label style="text-align: center; display: block;">How was your experience?</label>
+                <div class="rating-stars" id="ratingStars">
+                    <span class="rating-star" data-rating="1">★</span>
+                    <span class="rating-star" data-rating="2">★</span>
+                    <span class="rating-star" data-rating="3">★</span>
+                    <span class="rating-star" data-rating="4">★</span>
+                    <span class="rating-star" data-rating="5">★</span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="ratingComment"><i class="fas fa-comment"></i> Your Review</label>
+                <textarea id="ratingComment" placeholder="Share your experience with this professional..." rows="4"></textarea>
+            </div>
+            
+            <button class="btn btn-success" onclick="submitRating()">
+                <i class="fas fa-star"></i> Submit Rating
+            </button>
+            <button class="btn btn-secondary" onclick="closeRatingModal()">
+                <i class="fas fa-forward"></i> Skip
+            </button>
+        </div>
+    </div>
+
+    <!-- Bookings Modal -->
+    <div class="booking-modal" id="bookingsModal">
+        <div class="modal-content">
+            <h2>My Bookings</h2>
+            <div class="bookings-list" id="bookingsList">
+                <!-- Bookings will be displayed here -->
+            </div>
+            <button class="btn btn-secondary" onclick="closeBookingsModal()">
+                <i class="fas fa-times"></i> Close
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Define 150+ sample professionals across various categories
+        const sampleWorkers = [
+            // Electricians (15 professionals)
+            {
+                name: "Rajesh Kumar",
+                type: "electrician",
+                skill: "Residential & Commercial Electrical Work",
+                phone: "+91 98765 43210",
+                rate: "₹400/hour",
+                experience: "Licensed electrician with 8 years experience, specializing in home wiring and electrical repairs",
+                rating: "4.8",
+                totalRatings: 124,
+                tags: ["Wiring", "Repairs", "Installation", "Safety Checks", "Home"]
+            },
+            {
+                name: "Sanjay Mehra",
+                type: "electrician",
+                skill: "Industrial Electrical Systems & Automation",
+                phone: "+91 91234 56789",
+                rate: "₹550/hour",
+                experience: "12 years specializing in industrial electrical systems and automation",
+                rating: "4.9",
+                totalRatings: 89,
+                tags: ["Industrial", "Automation", "PLC", "Motor Controls", "Factory"]
+            },
+            {
+                name: "Vikram Singh",
+                type: "electrician",
+                skill: "Home Automation & Smart Systems",
+                phone: "+91 92345 67890",
+                rate: "₹600/hour",
+                experience: "Certified smart home installer with 6 years experience",
+                rating: "4.7",
+                totalRatings: 67,
+                tags: ["Smart Home", "Automation", "IoT", "Security Systems", "WiFi"]
+            },
+            {
+                name: "Amit Sharma",
+                type: "electrician",
+                skill: "Solar Panel Installation Expert",
+                phone: "+91 93456 78901",
+                rate: "₹700/hour",
+                experience: "Solar energy specialist with 7 years in renewable energy systems",
+                rating: "4.9",
+                totalRatings: 92,
+                tags: ["Solar", "Renewable Energy", "Green Energy", "Installation"]
+            },
+            {
+                name: "Rahul Verma",
+                type: "electrician",
+                skill: "Emergency Electrical Repairs",
+                phone: "+91 94567 89012",
+                rate: "₹450/hour",
+                experience: "24/7 emergency service with 10 years quick response experience",
+                rating: "4.8",
+                totalRatings: 156,
+                tags: ["Emergency", "Quick Service", "Repairs", "24x7"]
+            },
+            {
+                name: "Deepak Patel",
+                type: "electrician",
+                skill: "Commercial Building Wiring Specialist",
+                phone: "+91 95678 90123",
+                rate: "₹500/hour",
+                experience: "Commercial electrician with 15 years in office and retail space wiring",
+                rating: "4.9",
+                totalRatings: 134,
+                tags: ["Commercial", "Office Wiring", "Retail", "Three Phase"]
+            },
+            {
+                name: "Sunil Reddy",
+                type: "electrician",
+                skill: "Generator & UPS Installation",
+                phone: "+91 96789 01234",
+                rate: "₹550/hour",
+                experience: "Generator specialist with 8 years in backup power solutions",
+                rating: "4.7",
+                totalRatings: 78,
+                tags: ["Generator", "UPS", "Backup Power", "Inverter"]
+            },
+            {
+                name: "Mohan Das",
+                type: "electrician",
+                skill: "HVAC Electrical Systems",
+                phone: "+91 97890 12345",
+                rate: "₹600/hour",
+                experience: "HVAC electrical specialist with 9 years experience",
+                rating: "4.8",
+                totalRatings: 82,
+                tags: ["HVAC", "AC Wiring", "Ventilation", "Cooling"]
+            },
+            {
+                name: "Karan Singh",
+                type: "electrician",
+                skill: "Home Theater & Audio Setup",
+                phone: "+91 98901 23456",
+                rate: "₹400/hour",
+                experience: "Audio-visual electrician with 5 years in home entertainment systems",
+                rating: "4.6",
+                totalRatings: 56,
+                tags: ["Home Theater", "Audio", "Entertainment", "Setup"]
+            },
+            {
+                name: "Rohit Nair",
+                type: "electrician",
+                skill: "Electrical Safety Inspector",
+                phone: "+91 99012 34567",
+                rate: "₹450/hour",
+                experience: "Certified safety inspector with 12 years in electrical safety audits",
+                rating: "4.9",
+                totalRatings: 98,
+                tags: ["Safety", "Inspection", "Audit", "Certification"]
+            },
+            {
+                name: "Arjun Menon",
+                type: "electrician",
+                skill: "LED Lighting & Design",
+                phone: "+91 90123 45678",
+                rate: "₹350/hour",
+                experience: "Lighting designer with 6 years in modern LED solutions",
+                rating: "4.7",
+                totalRatings: 73,
+                tags: ["LED", "Lighting Design", "Modern Lights", "Energy Efficient"]
+            },
+            {
+                name: "Vivek Joshi",
+                type: "electrician",
+                skill: "Electric Vehicle Charging Installation",
+                phone: "+91 91234 56780",
+                rate: "₹650/hour",
+                experience: "EV charging station specialist with 4 years experience",
+                rating: "4.8",
+                totalRatings: 45,
+                tags: ["EV Charging", "Electric Vehicle", "Green Tech", "Fast Charge"]
+            },
+            {
+                name: "Pradeep Kumar",
+                type: "electrician",
+                skill: "Industrial Machine Wiring",
+                phone: "+91 92345 67801",
+                rate: "₹600/hour",
+                experience: "Industrial machine electrician with 11 years in factory equipment",
+                rating: "4.9",
+                totalRatings: 112,
+                tags: ["Industrial Machines", "Equipment", "Manufacturing", "CNC"]
+            },
+            {
+                name: "Suresh Iyer",
+                type: "electrician",
+                skill: "Electrical Panel Upgrade Specialist",
+                phone: "+91 93456 78912",
+                rate: "₹550/hour",
+                experience: "Panel upgrade expert with 8 years in electrical board installations",
+                rating: "4.8",
+                totalRatings: 89,
+                tags: ["Panel Upgrade", "Distribution Board", "MCB", "Safety Switch"]
+            },
+            {
+                name: "Nikhil Gupta",
+                type: "electrician",
+                skill: "CCTV & Security System Wiring",
+                phone: "+91 94567 89023",
+                rate: "₹400/hour",
+                experience: "Security system electrician with 7 years in surveillance installations",
+                rating: "4.7",
+                totalRatings: 67,
+                tags: ["CCTV", "Security", "Surveillance", "Wiring"]
+            },
+            
+            // Plumbers (15 professionals)
+            {
+                name: "Anil Sharma",
+                type: "plumber",
+                skill: "Residential Plumbing Expert",
+                phone: "+91 95678 90134",
+                rate: "₹350/hour",
+                experience: "15 years experience in home plumbing, leak repairs, and installations",
+                rating: "4.8",
+                totalRatings: 167,
+                tags: ["Leak Repair", "Pipe Installation", "Bathroom", "Kitchen"]
+            },
+            {
+                name: "Ravi Kumar",
+                type: "plumber",
+                skill: "Commercial Plumbing Systems",
+                phone: "+91 96789 01245",
+                rate: "₹500/hour",
+                experience: "Commercial plumbing specialist with 12 years in large building systems",
+                rating: "4.9",
+                totalRatings: 134,
+                tags: ["Commercial", "Large Systems", "Office", "Restaurant"]
+            },
+            {
+                name: "Sandeep Verma",
+                type: "plumber",
+                skill: "Emergency Plumbing Services",
+                phone: "+91 97890 12356",
+                rate: "₹450/hour",
+                experience: "24/7 emergency plumber with 8 years quick response experience",
+                rating: "4.7",
+                totalRatings: 189,
+                tags: ["Emergency", "24x7", "Quick Service", "Leak Control"]
+            },
+            {
+                name: "Vinod Patel",
+                type: "plumber",
+                skill: "Water Heater Installation & Repair",
+                phone: "+91 98901 23467",
+                rate: "₹400/hour",
+                experience: "Water heater specialist with 10 years in geyser installations",
+                rating: "4.8",
+                totalRatings: 145,
+                tags: ["Water Heater", "Geyser", "Installation", "Repair"]
+            },
+            {
+                name: "Manoj Singh",
+                type: "plumber",
+                skill: "Pipeline Installation Expert",
+                phone: "+91 99012 34578",
+                rate: "₹550/hour",
+                experience: "Pipeline installation specialist with 14 years experience",
+                rating: "4.9",
+                totalRatings: 112,
+                tags: ["Pipeline", "Installation", "Water Supply", "Drainage"]
+            },
+            {
+                name: "Ajay Reddy",
+                type: "plumber",
+                skill: "Bathroom Fitting Specialist",
+                phone: "+91 90123 45689",
+                rate: "₹350/hour",
+                experience: "Bathroom fixture expert with 9 years in modern bathroom installations",
+                rating: "4.7",
+                totalRatings: 98,
+                tags: ["Bathroom", "Fixtures", "Modern", "Installation"]
+            },
+            {
+                name: "Kumar Das",
+                type: "plumber",
+                skill: "Kitchen Plumbing & Sink Installation",
+                phone: "+91 91234 56790",
+                rate: "₹300/hour",
+                experience: "Kitchen plumbing specialist with 7 years experience",
+                rating: "4.6",
+                totalRatings: 87,
+                tags: ["Kitchen", "Sink", "Installation", "Drainage"]
+            },
+            {
+                name: "Rajiv Nair",
+                type: "plumber",
+                skill: "Water Tank & Pump Installation",
+                phone: "+91 92345 67812",
+                rate: "₹450/hour",
+                experience: "Water storage specialist with 11 years in tank and pump systems",
+                rating: "4.8",
+                totalRatings: 103,
+                tags: ["Water Tank", "Pump", "Storage", "Installation"]
+            },
+            {
+                name: "Sunil Menon",
+                type: "plumber",
+                skill: "Sewage & Drain Cleaning",
+                phone: "+91 93456 78923",
+                rate: "₹400/hour",
+                experience: "Sewage specialist with 13 years in drain cleaning and maintenance",
+                rating: "4.7",
+                totalRatings: 156,
+                tags: ["Sewage", "Drain Cleaning", "Blockage", "Maintenance"]
+            },
+            {
+                name: "Prakash Joshi",
+                type: "plumber",
+                skill: "Gas Pipe Installation Expert",
+                phone: "+91 94567 89034",
+                rate: "₹500/hour",
+                experience: "Gas line specialist with 9 years in safe gas pipe installations",
+                rating: "4.9",
+                totalRatings: 89,
+                tags: ["Gas Pipes", "Installation", "Safety", "CNG"]
+            },
+            {
+                name: "Deepak Iyer",
+                type: "plumber",
+                skill: "Swimming Pool Plumbing",
+                phone: "+91 95678 90145",
+                rate: "₹600/hour",
+                experience: "Pool plumbing specialist with 8 years in residential and commercial pools",
+                rating: "4.8",
+                totalRatings: 67,
+                tags: ["Swimming Pool", "Pool Plumbing", "Filtration", "Maintenance"]
+            },
+            {
+                name: "Vishal Gupta",
+                type: "plumber",
+                skill: "Water Filtration System Installation",
+                phone: "+91 96789 01256",
+                rate: "₹450/hour",
+                experience: "Water filtration expert with 6 years in purification systems",
+                rating: "4.7",
+                totalRatings: 78,
+                tags: ["Water Filtration", "Purification", "RO", "Installation"]
+            },
+            {
+                name: "Naresh Sharma",
+                type: "plumber",
+                skill: "Rainwater Harvesting Systems",
+                phone: "+91 97890 12367",
+                rate: "₹550/hour",
+                experience: "Rainwater harvesting specialist with 7 years in sustainable water systems",
+                rating: "4.8",
+                totalRatings: 56,
+                tags: ["Rainwater", "Harvesting", "Sustainable", "Water Conservation"]
+            },
+            {
+                name: "Ramesh Kumar",
+                type: "plumber",
+                skill: "Underground Pipeline Expert",
+                phone: "+91 98901 23478",
+                rate: "₹650/hour",
+                experience: "Underground pipeline specialist with 15 years in deep pipe installations",
+                rating: "4.9",
+                totalRatings: 112,
+                tags: ["Underground", "Pipeline", "Deep Installation", "Maintenance"]
+            },
+            {
+                name: "Suresh Verma",
+                type: "plumber",
+                skill: "Industrial Plumbing Systems",
+                phone: "+91 99012 34589",
+                rate: "₹700/hour",
+                experience: "Industrial plumbing expert with 18 years in factory and plant systems",
+                rating: "4.9",
+                totalRatings: 134,
+                tags: ["Industrial", "Factory", "Plant", "Large Scale"]
+            },
+            
+            // Carpenters (15 professionals)
+            {
+                name: "Ravi Shankar",
+                type: "carpenter",
+                skill: "Custom Furniture Maker",
+                phone: "+91 90123 45690",
+                rate: "₹500/hour",
+                experience: "Master carpenter with 20 years in custom furniture design and creation",
+                rating: "4.9",
+                totalRatings: 189,
+                tags: ["Furniture", "Custom", "Design", "Woodworking"]
+            },
+            {
+                name: "Kishore Kumar",
+                type: "carpenter",
+                skill: "Kitchen Cabinet Specialist",
+                phone: "+91 91234 56701",
+                rate: "₹450/hour",
+                experience: "Kitchen cabinet expert with 15 years in modular kitchen installations",
+                rating: "4.8",
+                totalRatings: 167,
+                tags: ["Kitchen Cabinet", "Modular Kitchen", "Installation", "Design"]
+            },
+            {
+                name: "Mohan Singh",
+                type: "carpenter",
+                skill: "Wooden Door & Window Expert",
+                phone: "+91 92345 67823",
+                rate: "₹400/hour",
+                experience: "Door and window specialist with 12 years in wooden frames and installations",
+                rating: "4.7",
+                totalRatings: 145,
+                tags: ["Doors", "Windows", "Wooden Frames", "Installation"]
+            },
+            {
+                name: "Anand Patel",
+                type: "carpenter",
+                skill: "Wood Carving Artist",
+                phone: "+91 93456 78934",
+                rate: "₹600/hour",
+                experience: "Traditional wood carving artist with 25 years experience",
+                rating: "4.9",
+                totalRatings: 98,
+                tags: ["Wood Carving", "Art", "Traditional", "Sculpture"]
+            },
+            {
+                name: "Sanjay Reddy",
+                type: "carpenter",
+                skill: "Office Furniture Installation",
+                phone: "+91 94567 89045",
+                rate: "₹400/hour",
+                experience: "Office furniture specialist with 10 years in commercial installations",
+                rating: "4.7",
+                totalRatings: 112,
+                tags: ["Office Furniture", "Commercial", "Installation", "Workspace"]
+            },
+            {
+                name: "Vinay Das",
+                type: "carpenter",
+                skill: "Wood Flooring Expert",
+                phone: "+91 95678 90156",
+                rate: "₹550/hour",
+                experience: "Wood flooring specialist with 14 years in parquet and hardwood floors",
+                rating: "4.8",
+                totalRatings: 134,
+                tags: ["Wood Flooring", "Parquet", "Hardwood", "Installation"]
+            },
+            {
+                name: "Pradeep Nair",
+                type: "carpenter",
+                skill: "Wardrobe & Storage Solutions",
+                phone: "+91 96789 01267",
+                rate: "₹450/hour",
+                experience: "Storage solution expert with 11 years in custom wardrobes and closets",
+                rating: "4.7",
+                totalRatings: 156,
+                tags: ["Wardrobe", "Storage", "Custom", "Closet"]
+            },
+            {
+                name: "Rohan Menon",
+                type: "carpenter",
+                skill: "Wooden Staircase Specialist",
+                phone: "+91 97890 12378",
+                rate: "₹600/hour",
+                experience: "Staircase expert with 16 years in wooden staircase design and installation",
+                rating: "4.9",
+                totalRatings: 89,
+                tags: ["Staircase", "Wooden", "Design", "Installation"]
+            },
+            {
+                name: "Arun Joshi",
+                type: "carpenter",
+                skill: "Outdoor Furniture Maker",
+                phone: "+91 98901 23489",
+                rate: "₹400/hour",
+                experience: "Outdoor furniture specialist with 8 years in garden and patio furniture",
+                rating: "4.6",
+                totalRatings: 78,
+                tags: ["Outdoor", "Garden", "Patio", "Weatherproof"]
+            },
+            {
+                name: "Suresh Iyer",
+                type: "carpenter",
+                skill: "Wood Restoration Expert",
+                phone: "+91 99012 34590",
+                rate: "₹350/hour",
+                experience: "Wood restoration specialist with 18 years in antique furniture restoration",
+                rating: "4.8",
+                totalRatings: 112,
+                tags: ["Restoration", "Antique", "Repair", "Refinishing"]
+            },
+            {
+                name: "Rajesh Gupta",
+                type: "carpenter",
+                skill: "Children's Furniture Specialist",
+                phone: "+91 90123 45601",
+                rate: "₹400/hour",
+                experience: "Children's furniture expert with 7 years in safe and creative designs",
+                rating: "4.7",
+                totalRatings: 67,
+                tags: ["Children", "Safe", "Creative", "Educational"]
+            },
+            {
+                name: "Nikhil Sharma",
+                type: "carpenter",
+                skill: "Modern Minimalist Furniture",
+                phone: "+91 91234 56712",
+                rate: "₹500/hour",
+                experience: "Modern furniture designer with 6 years in minimalist contemporary designs",
+                rating: "4.8",
+                totalRatings: 89,
+                tags: ["Modern", "Minimalist", "Contemporary", "Design"]
+            },
+            {
+                name: "Vivek Kumar",
+                type: "carpenter",
+                skill: "Wood Turning & Lathe Work",
+                phone: "+91 92345 67834",
+                rate: "₹450/hour",
+                experience: "Wood turning specialist with 12 years in lathe work and spindle turning",
+                rating: "4.7",
+                totalRatings: 78,
+                tags: ["Wood Turning", "Lathe", "Spindle", "Craft"]
+            },
+            {
+                name: "Anil Verma",
+                type: "carpenter",
+                skill: "Carpentry Trainer & Consultant",
+                phone: "+91 93456 78945",
+                rate: "₹700/hour",
+                experience: "Master carpenter and trainer with 30 years experience teaching carpentry",
+                rating: "4.9",
+                totalRatings: 145,
+                tags: ["Training", "Consultant", "Education", "Workshop"]
+            },
+            {
+                name: "Ravi Patel",
+                type: "carpenter",
+                skill: "Industrial Woodwork Specialist",
+                phone: "+91 94567 89056",
+                rate: "₹600/hour",
+                experience: "Industrial carpenter with 15 years in factory woodwork and installations",
+                rating: "4.8",
+                totalRatings: 112,
+                tags: ["Industrial", "Factory", "Manufacturing", "Production"]
+            },
+            
+            // Software Developers (15 professionals)
+            {
+                name: "Rohit Verma",
+                type: "developer",
+                skill: "Full Stack Web Developer",
+                phone: "+91 95678 90167",
+                rate: "₹1200/hour",
+                experience: "8+ years in web development with expertise in MERN stack and cloud deployment",
+                rating: "4.8",
+                totalRatings: 234,
+                tags: ["JavaScript", "React", "Node.js", "MongoDB", "Python", "AWS"]
+            },
+            {
+                name: "Arjun Desai",
+                type: "developer",
+                skill: "Mobile App Developer",
+                phone: "+91 96789 01278",
+                rate: "₹1100/hour",
+                experience: "Specialized in iOS and Android app development for 7 years",
+                rating: "4.8",
+                totalRatings: 189,
+                tags: ["Swift", "Kotlin", "React Native", "Flutter", "Firebase", "REST API"]
+            },
+            {
+                name: "Priya Sharma",
+                type: "developer",
+                skill: "Frontend Developer & UI Specialist",
+                phone: "+91 97890 12389",
+                rate: "₹900/hour",
+                experience: "Frontend expert with 6 years in React, Vue.js, and modern CSS frameworks",
+                rating: "4.7",
+                totalRatings: 156,
+                tags: ["React", "Vue.js", "TypeScript", "CSS", "UI/UX", "Animation"]
+            },
+            {
+                name: "Karthik Menon",
+                type: "data_scientist",
+                skill: "Machine Learning & Data Analytics",
+                phone: "+91 98901 23490",
+                rate: "₹1500/hour",
+                experience: "PhD in Data Science with 6 years industry experience in AI and ML",
+                rating: "4.9",
+                totalRatings: 167,
+                tags: ["Python", "TensorFlow", "PyTorch", "SQL", "Data Visualization", "AI"]
+            },
+            {
+                name: "Sneha Reddy",
+                type: "designer",
+                skill: "UI/UX Designer & Frontend Developer",
+                phone: "+91 99012 34501",
+                rate: "₹900/hour",
+                experience: "5 years creating user-centered designs for web and mobile applications",
+                rating: "4.7",
+                totalRatings: 134,
+                tags: ["Figma", "Adobe XD", "HTML/CSS", "React", "User Research", "Prototyping"]
+            },
+            {
+                name: "Vikram Malhotra",
+                type: "developer",
+                skill: "Backend & DevOps Engineer",
+                phone: "+91 90123 45612",
+                rate: "₹1300/hour",
+                experience: "Expert in cloud infrastructure and scalable backend systems with 8 years e
